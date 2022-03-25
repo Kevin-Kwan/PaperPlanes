@@ -9,10 +9,8 @@ public class PauseMenu : MonoBehaviour
         get { return gameIsPaused; }
         set {
             if (value) {
-                // call pause
                 Pause();
             } else {
-                // call resume
                 Resume();
             }
             gameIsPaused = value;
@@ -45,7 +43,6 @@ public class PauseMenu : MonoBehaviour
         {
            // Debug.Log("Esc Pressed!");
             if (GameIsPaused) {
-                //MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 GameIsPaused = false;
 
                 //Resume();
@@ -59,18 +56,19 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void Unpause()
+    {
+        GameIsPaused = false;
+        Hide();
+    }
+
     public void Resume () {
-        //MusicManager.PauseSong.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        //MusicManager.PauseSong.release();
-        //MusicManager.Level1Song.setPaused(false);
-        // MusicManager.instance.StopPauseMenuMusic();
         MusicManager._instance.StopPauseMenuMusic();
         MusicManager._instance.UnPauseLevelMusic();
-        Debug.Log("Resume");
+        MusicManager._instance.UnPauseLevel2Music();
+
         Hide();
         Time.timeScale = 1f;
-
-        //GameIsPaused = false;
     }
 
     void Hide() {
@@ -84,25 +82,23 @@ public class PauseMenu : MonoBehaviour
     }
 
     void Pause () {
-        //MusicManager.PauseSong.start();
-        //MusicManager.instance.StopPauseMenuMusic();
-        //MusicManager.LevelSong.setPaused(true);
+
         MusicManager._instance.PauseLevelMusic();
-        //MusicManager._instance.StopLevelMusic();
+        MusicManager._instance.PauseLevel2Music();
+
         MusicManager._instance.PlayPauseMenuMusic();
         Debug.Log("Pause");
 
         Show();
         Time.timeScale = 0f;
 
-        //GameIsPaused = true;
     }
 
 
     public void LoadMenu() {
         Debug.Log("Loading Menu...");
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void QuitGame() {

@@ -24,17 +24,19 @@ public class ColumnSpawner : MonoBehaviour
         ResourceBar.instance.setRegenerationSpeed(ResourceBar.instance.getCapacity() - ResourceBar.instance.getCurrentResources());
         if (timer > maxTime)
         {
-            this.transform.position = this.transform.position + new Vector3(70, 0, 0);
+            this.transform.position = this.transform.position + new Vector3(80, 0, 0);
             GameObject col = Instantiate(columns);
             col.transform.position = this.transform.position + new Vector3(0, Random.Range(-height, height), 0);
-            Destroy(col, 10);
+            Destroy(col, 30);
             timer = 0;
         }
         timer += Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SceneManager.LoadScene("MainDemo");
+            GameObject transitionObject = LevelTransitions.instance.gameObject;
+            LevelTransitions transitionScript = transitionObject.GetComponent<LevelTransitions>();
+            StartCoroutine(transitionScript.LevelTransition("L1A2"));
         }
     }
 }
